@@ -1,5 +1,4 @@
 package zadaci;
-import java.util.ArrayList;
 
 public class ConsoleWindowManager {
 
