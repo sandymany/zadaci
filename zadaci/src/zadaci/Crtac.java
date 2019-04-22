@@ -1,47 +1,50 @@
 package zadaci;
 import java.util.ArrayList;
 
-public class Crtac {
-	ArrayList <ArrayList<Character>> screen=new ArrayList<>();//screen=hashtagirano polje unutar kojeg se sve odvija
-	ArrayList<ArrayList<Character>> centrirano=new ArrayList<>();
-	int visina_screena;
-	int sirina_screena;
+public class ConsoleWindowManager {
 	
-	public void Ispis(ArrayList<ArrayList<Character>> lista) {
-		for(int i=0;i<lista.size();i++) {
-			for(int j=0;j<lista.get(i).size();j++) {
-				System.out.print(lista.get(i).get(j));
+	ArrayList <ArrayList<Character>> screen=new ArrayList<>();//screen=hashtagirano polje unutar kojeg se sve odvija
+	//kaj ovo radi???
+	//centrirano? kaj je to
+	ArrayList<ArrayList<Character>> centrirano=new ArrayList<>();
+	int screenHeight;
+	int screenWidth;
+
+	public void print() {
+		for(int i=0;i<screen.size();i++) {
+			for(int j=0;j<screen.get(i).size();j++) {
+				System.out.print(screen.get(i).get(j));
 			}
 			System.out.println();
 		}
 	}
-	
-	public void Tockanje(int visina,int sirina) {
+
+	public void initScreen(int height, int width) {
 		screen.clear();
-		visina_screena=visina;//kasnije mi treba kod provjeravanja jel moguce napravit zadani okvir unutar hashatagiranog polja
-		sirina_screena=sirina;
-		for(int i=0;i<visina;i++) {
+		screenHeight =height;//kasnije mi treba kod provjeravanja jel moguce napravit zadani okvir unutar hashatagiranog polja
+		screenWidth =width;
+		for(int i=0;i<height;i++) {
 			screen.add(new ArrayList<Character>());
-			for(int j=0;j<sirina;j++) {
+			for(int j=0;j<width;j++) {
 				screen.get(i).add('.');
 			}
 		}
 	}
 
-	public void Okviranje(int x,int y,int visina,int sirina) {
-		System.out.println("visina okvira:"+visina+" sirina okvira:"+sirina);
-		
-		if ((x+sirina)>sirina_screena || x>=sirina_screena || y>=visina_screena || y+1<visina){
+	public void drawWindow(int x, int y, int height, int width) {
+		System.out.println("height okvira:"+height+" width okvira:"+width);
+
+		if ((x+width)> screenWidth || x>= screenWidth || y>= screenHeight || y+1<height){
 			System.out.print("Okvir nije unutar polja! Nem ni ispisival\n");
 		}
 		else {
-			for (int i=visina_screena-y-1;i<visina_screena-y-1+visina;i++) {
-				for(int j=x;j<sirina+x;j++) {
-					if(i==visina_screena-y-1 || i==visina_screena-y-2+visina) {
+			for (int i = screenHeight -y-1; i< screenHeight -y-1+height; i++) {
+				for(int j=x;j<width+x;j++) {
+					if(i== screenHeight -y-1 || i== screenHeight -y-2+height) {
 						screen.get(i).set(j,'+');
 					}
-					else if(i!=visina_screena-y-1 || i!=visina_screena-y-2+visina) {
-						if(j==x || j==sirina+x-1) {
+					else if(i!= screenHeight -y-1 || i!= screenHeight -y-2+height) {
+						if(j==x || j==width+x-1) {
 							screen.get(i).set(j, '+');
 						}
 						else {
@@ -53,17 +56,17 @@ public class Crtac {
 		}
 	}
 
-	public void Centriranje_teksta(int x, int y, int redci,int stupci,String tekst) {
+	public void drawText(int x, int y, int rows, int columns, String tekst) {
 		String [] array=tekst.trim().split("\n");
-		for(int i = 0; i < redci; i++) {
+		for(int i = 0; i < rows; i++) {
 			centrirano.add(new ArrayList<Character>());
-			for(int j = 0; j < stupci; j++) {
-				if(i >= (redci-array.length)/2 &&
-				   i < redci-(redci-array.length)/2 &&
-				   i-(redci-array.length)/2 < array.length &&
-				   j >= (stupci-array[i-(redci-array.length)/2].length())/2 &&
-				   j < (stupci-array[i-(redci-array.length)/2].length())/2 + array[i-(redci-array.length)/2].length()){
-					centrirano.get(i).add(array[i-(redci-array.length)/2].charAt(j-(stupci-array[i-(redci-array.length)/2].length())/2));
+			for(int j = 0; j < columns; j++) {
+				if(i >= (rows-array.length)/2 &&
+						i < rows-(rows-array.length)/2 &&
+						i-(rows-array.length)/2 < array.length &&
+						j >= (columns-array[i-(rows-array.length)/2].length())/2 &&
+						j < (columns-array[i-(rows-array.length)/2].length())/2 + array[i-(rows-array.length)/2].length()){
+					centrirano.get(i).add(array[i-(rows-array.length)/2].charAt(j-(columns-array[i-(rows-array.length)/2].length())/2));
 				}
 				else {
 					centrirano.get(i).add('.');
@@ -71,8 +74,8 @@ public class Crtac {
 			}
 		}
 	}
-	
+
 	public void UmetniCentrirano() {
-		
+
 	}
 }
