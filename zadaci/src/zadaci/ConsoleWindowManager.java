@@ -12,10 +12,10 @@ class ConsoleWindowManager {
 		initScreen(height,width);//automatski zove initScreen, ne mora ga zvati objekt
 	}
 	
-	public void print() {
-		for(int i=0;i<screen.length;i++) {
-			for(int j=0;j<screen[i].length;j++) {
-				System.out.print(screen[i][j]);
+	public void print(char [][] array) {
+		for(int i=0;i<array.length;i++) {
+			for(int j=0;j<array[i].length;j++) {
+				System.out.print(array[i][j]);
 			}
 			System.out.println();
 		}
@@ -30,7 +30,10 @@ class ConsoleWindowManager {
 		}
 	}
 
-	public void drawWindow(int x, int y, int height, int width,String tekst) {
+	public void drawWindow(int x, int y, int height, int width,String tekstZaCentriranje) {
+		for( int i = 0; i < screen.length; i++ )
+			   Arrays.fill( screen[i], '.' );
+		
 		System.out.println("height okvira:"+height+" width okvira:"+width);
 
 		if ((x+width)> screenWidth || x>= screenWidth || y>= screenHeight || y+1<height){
@@ -54,12 +57,12 @@ class ConsoleWindowManager {
 					}
 				}
 			}
+			drawText(x+1,y-1,height-2,width-2,tekstZaCentriranje);
 		}
 	}
 
 	public void drawText(int x, int y, int rows, int columns, String tekst) {
 		String [] array=tekst.trim().split("\n");
-		System.out.print(Arrays.toString(array)+"\n");
 		centrirano = new char[rows][columns];
 		for(int i = 0; i < rows; i++) {
 			for(int j = 0; j < columns; j++) {
@@ -68,12 +71,16 @@ class ConsoleWindowManager {
 						i-(rows-array.length)/2 < array.length &&
 						j >= (columns-array[i-(rows-array.length)/2].length())/2 &&
 						j < (columns-array[i-(rows-array.length)/2].length())/2 + array[i-(rows-array.length)/2].length()){
-					System.out.println("i:"+i+" j:"+j);
 					centrirano[i][j] = array[i-(rows-array.length)/2].charAt(j-(columns-array[i-(rows-array.length)/2].length())/2);
 				}
 				else {
 					centrirano[i][j] = '.';
 				}
+			}
+		}
+		for(int i=screenHeight-y-1;i< screenHeight-y-1+rows; i++) {
+			for(int j=x;j<columns+x;j++) {
+				screen[i][j]=centrirano[i-(screenHeight-y-1)][j-x];
 			}
 		}
 	}
