@@ -1,4 +1,5 @@
 package zadaci;
+import java.util.Arrays;
 
 public class ConsoleWindowManager {
 
@@ -6,7 +7,11 @@ public class ConsoleWindowManager {
 	char[][] centrirano;
 	int screenHeight;
 	int screenWidth;
-
+	
+	public ConsoleWindowManager(int width, int height){
+		initScreen(height,width);
+	}
+	
 	public void print() {
 		for(int i=0;i<screenHeight;i++) {
 			for(int j=0;j<screenWidth;j++) {
@@ -21,6 +26,9 @@ public class ConsoleWindowManager {
 		screenHeight =height;//kasnije mi treba kod provjeravanja jel moguce napravit zadani okvir unutar hashatagiranog polja
 		screenWidth =width;
 		screen = new char[height][width];
+		for(int i = 0; i < screenHeight; i++){
+			Arrays.fill(screen[i],'.');
+		}
 	}
 
 	public void drawWindow(int x, int y, int height, int width) {
