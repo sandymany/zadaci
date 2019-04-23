@@ -5,8 +5,8 @@ import zadaci.Crtac;
 public class Main {
 
 	public static void main(String[] args) {
-		Crtac objekt=new Crtac();
-		
+		ConsoleWindowManager ekran = new ConsoleWindowManager(40,60);
+		//ispravi si ostatak... nova imena metoda koja sam promenil i to...
 		objekt.Tockanje(8, 20);//visina,sirina - stvaranje polja (tockanje)
 		
 		objekt.Okviranje(0,2,3,5);//x i y su koordinate gornjeg ljevog kuta okvira (0,0 bi bil donji ljevi kut polja)
