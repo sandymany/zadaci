@@ -31,8 +31,6 @@ class ConsoleWindowManager {
 	}
 
 	public void drawWindow(int x, int y, int height, int width,String tekstZaCentriranje) {
-		for( int i = 0; i < screen.length; i++ )
-			   Arrays.fill( screen[i], '.' );
 		
 		System.out.println("height okvira:"+height+" width okvira:"+width);
 
@@ -74,7 +72,7 @@ class ConsoleWindowManager {
 					centrirano[i][j] = array[i-(rows-array.length)/2].charAt(j-(columns-array[i-(rows-array.length)/2].length())/2);
 				}
 				else {
-					centrirano[i][j] = '.';
+					centrirano[i][j] = '\u00B7';//tocka
 				}
 			}
 		}
