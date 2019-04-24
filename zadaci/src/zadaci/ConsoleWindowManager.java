@@ -82,4 +82,18 @@ class ConsoleWindowManager {
 			}
 		}
 	}
+	
+	public void performUnsolidGravity(char [][] array) {
+		
+		for(int n=0;n<array.length;n++) {
+			for(int i=array.length-1;i>0;i--) {
+				for(int j=0;j<array[i].length;j++) {
+					if (array[i][j]=='.' || array[i][j]=='\u00B7') {
+						array[i][j]=array[i-1][j];
+						array[i-1][j]='.';
+					}
+				}
+			}
+		}
+	}
 }
