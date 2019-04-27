@@ -1,5 +1,6 @@
 package zadaci;
 import java.util.Arrays;
+import java.util.ArrayList;
 
 class ConsoleWindowManager {
 
@@ -50,7 +51,7 @@ class ConsoleWindowManager {
 					}
 					else if(i!= screenHeight -y-1 || i!= screenHeight -y-2+height) {
 						if(j==x || j==width+x-1) {
-							screen[i][j] = '\u2502';
+							screen[i][j] = '\u2502';//'|'
 						}
 					}
 				}
@@ -96,4 +97,53 @@ class ConsoleWindowManager {
 			}
 		}
 	}
+	
+	public void performSolidGravity(char[][] array) {
+		ArrayList<Integer> zamjena=new ArrayList<Integer>();
+		boolean zamjeniti=true;
+		
+		for(int n=0;n<array.length;n++) {
+			for(int i=array.length-2;i>=0;i--) {
+				int j=0;
+				while(j!=array[i].length) {
+					if(array[i][j]=='*' || array[i][j]=='\u2502') {
+						zamjena.add(j);
+						j++;
+						while(array[i][j]!='*' && array[i][j]!='\u2502') {
+							zamjena.add(j);
+							j++;
+						}
+						zamjena.add(j);
+						j++;
+						for(int column:zamjena) {
+							if(array[i+1][column]!='.') {
+								zamjeniti=false;
+							}
+						}
+						if(zamjeniti==true) {
+							for(int stupac:zamjena) {
+								array[i+1][stupac]=array[i][stupac];
+								array[i][stupac]='.';
+							}
+							zamjena.clear();
+						}
+					}
+					else {
+						j++;
+					}
+				}
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
