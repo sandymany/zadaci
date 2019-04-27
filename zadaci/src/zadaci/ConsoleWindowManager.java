@@ -107,6 +107,9 @@ class ConsoleWindowManager {
 				int j=0;
 				while(j!=array[i].length) {
 					if(array[i][j]=='*' || array[i][j]=='\u2502') {
+						zamjeniti=true;
+						zamjena.clear();
+						System.out.println("ulazim:"+i);
 						zamjena.add(j);
 						j++;
 						while(array[i][j]!='*' && array[i][j]!='\u2502') {
@@ -121,16 +124,15 @@ class ConsoleWindowManager {
 							}
 						}
 						if(zamjeniti==true) {
+							System.out.println("mjenjam");
 							for(int stupac:zamjena) {
 								array[i+1][stupac]=array[i][stupac];
 								array[i][stupac]='.';
 							}
-							zamjena.clear();
+							//zamjena.clear();
 						}
 					}
-					else {
-						j++;
-					}
+					else {j++;}
 				}
 			}
 		}
