@@ -8,12 +8,32 @@ class ConsoleWindowManager {
 	char[][] centrirano;
 	int screenHeight;
 	int screenWidth;
+	private ArrayList<Window> prozori;
+	private ArrayList<Window> prozoriSGravitacijom;
+	private boolean isGravityOn = false;
 	
 	public ConsoleWindowManager(int width, int height){
-		initScreen(height,width);//automatski zove initScreen, ne mora ga zvati objekt
+		prozori = new ArrayList<>();
+		initScreen(height,width);//automatski zove initScreen
+	}
+	
+	public void toggleGravity(boolean value) {
+		isGravityOn = value;
 	}
 	
 	public void print(char [][] array) {
+		if(isGravityOn) {
+			prozoriSGravitacijom = getWindowsWithGravityFromList(prozori);
+			for(Window w : prozoriSGravitacijom) {
+				drawWindow(w);
+			}
+		}
+		else {
+			for(Window w : prozori) {
+				drawWindow(w);
+			}
+		}
+
 		for(int i=0;i<array.length;i++) {
 			for(int j=0;j<array[i].length;j++) {
 				System.out.print(array[i][j]);
@@ -23,20 +43,34 @@ class ConsoleWindowManager {
 	}
 
 	public void initScreen(int height, int width) {
-		screenHeight =height;//kasnije mi treba kod provjeravanja jel moguce napravit zadani okvir unutar hashatagiranog polja
+		screenHeight =height;//kasnije mi treba kod provjeravanja
 		screenWidth =width;
 		screen = new char[height][width];
 		for(int i = 0; i < screenHeight; i++){
 			Arrays.fill(screen[i],'.');
 		}
 	}
-
-	public void drawWindow(int x, int y, int height, int width,String tekstZaCentriranje) {
+	
+	public void addWindow(Window w) {
+		prozori.add(w);
+	}
+	
+	private ArrayList<Window> getWindowsWithGravityFromList(ArrayList<Window> prozori) {
+		//logika
+		return null;
+	}
+	
+	private void drawWindow(Window w) {
+		int height = w.height;
+		int width = w.width;
+		int x = w.x;
+		int y = w.y;
+		String tekstZaCentriranje = w.text;
 		
 		System.out.println("height okvira:"+height+" width okvira:"+width);
 
 		if ((x+width)> screenWidth || x>= screenWidth || y>= screenHeight || y+1<height){
-			System.out.print("Okvir nije unutar polja! Nem ni ispisival\n");
+			System.err.print("Okvir nije unutar polja! Nem ni ispisival\n");
 		}
 		else {
 			for (int i = screenHeight-y-1; i< screenHeight-y-1+height; i++) {
@@ -129,7 +163,6 @@ class ConsoleWindowManager {
 								array[i+1][stupac]=array[i][stupac];
 								array[i][stupac]='.';
 							}
-							//zamjena.clear();
 						}
 					}
 					else {j++;}
