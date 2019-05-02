@@ -1,6 +1,5 @@
 package zadaci;
-
-public class Window {
+public class Window implements Comparable<Window>{
 	
 	public int x;
 	public int y;
@@ -15,4 +14,7 @@ public class Window {
 		height = h;
 		this.text = text;
 	}
+	 public int compareTo(Window w) {
+	        return this.y > w.y ? 1 : this.y < w.y ? -1 : 0;
+	    }
 }

@@ -1,7 +1,7 @@
 package zadaci;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.ArrayList;
-
 class ConsoleWindowManager {
 
 	char[][] screen;
@@ -15,6 +15,15 @@ class ConsoleWindowManager {
 	public ConsoleWindowManager(int width, int height){
 		prozori = new ArrayList<>();
 		initScreen(height,width);//automatski zove initScreen
+	}
+	
+	public void initScreen(int height, int width) {
+		screenHeight =height;//kasnije mi treba kod provjeravanja
+		screenWidth =width;
+		screen = new char[height][width];
+		for(int i = 0; i < screenHeight; i++){
+			Arrays.fill(screen[i],'.');
+		}
 	}
 	
 	public void toggleGravity(boolean value) {
@@ -41,23 +50,9 @@ class ConsoleWindowManager {
 			System.out.println();
 		}
 	}
-
-	public void initScreen(int height, int width) {
-		screenHeight =height;//kasnije mi treba kod provjeravanja
-		screenWidth =width;
-		screen = new char[height][width];
-		for(int i = 0; i < screenHeight; i++){
-			Arrays.fill(screen[i],'.');
-		}
-	}
 	
 	public void addWindow(Window w) {
 		prozori.add(w);
-	}
-	
-	private ArrayList<Window> getWindowsWithGravityFromList(ArrayList<Window> prozori) {
-		//logika
-		return null;
 	}
 	
 	private void drawWindow(Window w) {
@@ -171,6 +166,30 @@ class ConsoleWindowManager {
 		}
 	}
 	
+	private ArrayList<Window> getWindowsWithGravityFromList(ArrayList<Window> gWindows) {
+		ArrayList<Window> passed=new ArrayList<>();
+		gWindows=new ArrayList<Window>();
+		Collections.sort(prozori);
+		gWindows=prozori;
+		boolean SomethingBeneath;
+		int temporary;
+		for(Window window:gWindows) {
+			temporary=0;
+			SomethingBeneath=false;
+			for(Window prozor:passed) {
+				if((window.x>=prozor.x && window.x<=prozor.x+prozor.width) || 
+				   (window.x+window.width>=prozor.x && window.x+window.width <=prozor.x+prozor.width)) {
+					SomethingBeneath=true;
+					if(prozor.y>temporary) {temporary=prozor.y;}
+				}
+			}
+			if(SomethingBeneath) {
+				window.y=window.y+1-(window.y+1-window.height-temporary);
+			}	
+			passed.add(window);
+		}
+		return gWindows;
+	}
 	
 	
 	
