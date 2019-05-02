@@ -18,6 +18,7 @@ public class Main {
 		} 
 		catch(InterruptedException ex) 
 		{
+		    ex.printStackTrace();
 		    Thread.currentThread().interrupt();
 		}
 	}
