@@ -127,65 +127,30 @@ class ConsoleWindowManager {
 		}
 	}
 	
-	public void performSolidGravity(char[][] array) {
-		ArrayList<Integer> zamjena=new ArrayList<Integer>();
-		boolean zamjeniti=true;
-		
-		for(int n=0;n<array.length;n++) {
-			for(int i=array.length-2;i>=0;i--) {
-				int j=0;
-				while(j!=array[i].length) {
-					if(array[i][j]=='*' || array[i][j]=='\u2502') {
-						zamjeniti=true;
-						zamjena.clear();
-						System.out.println("ulazim:"+i);
-						zamjena.add(j);
-						j++;
-						while(array[i][j]!='*' && array[i][j]!='\u2502') {
-							zamjena.add(j);
-							j++;
-						}
-						zamjena.add(j);
-						j++;
-						for(int column:zamjena) {
-							if(array[i+1][column]!='.') {
-								zamjeniti=false;
-							}
-						}
-						if(zamjeniti==true) {
-							System.out.println("mjenjam");
-							for(int stupac:zamjena) {
-								array[i+1][stupac]=array[i][stupac];
-								array[i][stupac]='.';
-							}
-						}
-					}
-					else {j++;}
-				}
-			}
-		}
-	}
-	
 	private ArrayList<Window> getWindowsWithGravityFromList(ArrayList<Window> gWindows) {
 		ArrayList<Window> passed=new ArrayList<>();
 		gWindows=new ArrayList<Window>();
 		Collections.sort(prozori);
 		gWindows=prozori;
-		boolean SomethingBeneath;
+		boolean somethingBeneath;
 		int temporary;
 		for(Window window:gWindows) {
 			temporary=0;
-			SomethingBeneath=false;
+			somethingBeneath=false;
 			for(Window prozor:passed) {
 				if((window.x>=prozor.x && window.x<=prozor.x+prozor.width) || 
-				   (window.x+window.width>=prozor.x && window.x+window.width <=prozor.x+prozor.width)) {
-					SomethingBeneath=true;
+				   (window.x+window.width>=prozor.x && window.x+window.width <=prozor.x+prozor.width)||
+				   (prozor.x>=window.x && prozor.x+prozor.width<=window.x+window.width)) {
+					somethingBeneath=true;
 					if(prozor.y>temporary) {temporary=prozor.y;}
 				}
 			}
-			if(SomethingBeneath) {
+			if(somethingBeneath) {
 				window.y=window.y+1-(window.y+1-window.height-temporary);
-			}	
+			}
+			else {
+				window.y=window.height-1;
+			}
 			passed.add(window);
 		}
 		return gWindows;
